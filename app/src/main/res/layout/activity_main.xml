@@ -45,15 +45,17 @@
         <TextView
             android:id="@+id/Text_valor"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="valor"/>
 
 
         <EditText
             android:id="@+id/Input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:text="00.00"/>
+            android:inputType="number"
+            android:minWidth="100dp"
+            />
 
 
     </LinearLayout>
@@ -67,6 +69,6 @@
         android:id="@+id/text_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="resultado"/>
+        android:minWidth="100dp"/>
 
 </LinearLayout>
