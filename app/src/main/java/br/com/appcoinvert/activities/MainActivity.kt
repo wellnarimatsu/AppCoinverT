@@ -1,8 +1,9 @@
 package br.com.appcoinvert.activities
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import br.com.appcoinvert.R
 import br.com.appcoinvert.data.base.EndPoint
 import br.com.appcoinvert.databinding.ActivityMainBinding
 import br.com.appcoinvert.util.RetrofitInicializador
@@ -13,17 +14,25 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
+    private lateinit var spFrom : Spinner
+    private lateinit var spTo : Spinner
+    private lateinit var btConvert : Button
+    private lateinit var tvResult : TextView
+    private lateinit var etValueFrom : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
+
+        spFrom = findViewById(R.id.Spinner_from)
+        spTo = findViewById(R.id.Spinner_to)
+        btConvert = findViewById(R.id.btn_converter)
+        tvResult = findViewById(R.id.text_result)
+        etValueFrom = findViewById(R.id.Input)
 
         getCurencies()
 
-        binding.btnConverter.setOnClickListener {
+        btConvert.setOnClickListener {
             convertMoney()
         }
 
@@ -37,15 +46,17 @@ class MainActivity : AppCompatActivity() {
         //Criando endPoint
         val endPoint = retrofitClient.create(EndPoint::class.java)
 
-        endPoint.getCurencyRate(binding.SpinnerFrom.toString(), binding.SpinnerTo.toString()).enqueue(object :
+        endPoint.getCurencyRate(spFrom.selectedItem.toString(), spTo.selectedItem.toString()).enqueue(object :
             retrofit2.Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 //entry set não retorno só string igual keyset, ele retorna chave/valor
-                var data  = response.body()?.entrySet()?.find {it.key == binding.SpinnerTo.selectedItem.toString() }
+                var data  = response.body()?.entrySet()?.find {it.key == spTo.selectedItem.toString() }
                 val rate : Double = data?.value.toString().toDouble()
-                val conversion = binding.Input.text.toString().toDouble() * rate
 
-                binding.textResult.setText(conversion.toString())
+
+                val conversion = etValueFrom.text.toString().toDouble() * rate
+
+                tvResult.setText(conversion.toString())
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -69,20 +80,21 @@ class MainActivity : AppCompatActivity() {
                 response.body()?.keySet()?.iterator()?.forEach{
                     data.add(it)
                 }
+                //colocando moeda comum de inicio
+                val posBRL = data.indexOf("brl")
+                val posUSD = data.indexOf("usd")
 
                 //Vamos Populatular o spinner, criando um adapter
 
                val adapter = ArrayAdapter(baseContext, android.R.layout.simple_spinner_dropdown_item,data )
 
-                binding.SpinnerFrom.adapter = adapter
-                binding.SpinnerTo.adapter = adapter
+                spFrom.adapter = adapter
+                spTo.adapter = adapter
 
-                //colocando moeda comum de inicio
-                val posBRL = data.indexOf("brl")
-                val posUSD = data.indexOf("usd")
 
-                binding.SpinnerFrom.setSelection(posBRL)
-                binding.SpinnerTo.setSelection(posUSD)
+
+                spFrom.setSelection(posBRL)
+                spTo.setSelection(posUSD)
 
 
 
