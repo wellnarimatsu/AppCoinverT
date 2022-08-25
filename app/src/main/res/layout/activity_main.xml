@@ -80,20 +80,42 @@
         app:layout_constraintStart_toEndOf="@id/Spinner_from"
         app:layout_constraintTop_toBottomOf="@id/text_to" />
 
-    <EditText
-        android:id="@+id/Input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="Digite o Valor"
-        android:inputType="number"
-        android:minWidth="100dp"
-        android:textColor="@color/black"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_form_layout"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
         android:textColorHint="@color/black"
 
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@id/Spinner_from"
-        app:layout_constraintTop_toBottomOf="@id/Spinner_from" />
+        app:layout_constraintStart_toStartOf="@+id/Spinner_from"
+        app:layout_constraintEnd_toEndOf="@id/Spinner_to"
+        app:layout_constraintTop_toBottomOf="@id/Spinner_from"
+
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Digite o Valor" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <EditText-->
+<!--        android:id="@+id/Input"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:hint="Digite o Valor"-->
+<!--        android:inputType="number"-->
+<!--        android:minWidth="100dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="@color/black"-->
+
+<!--        android:textSize="15sp"-->
+<!--        app:layout_constraintStart_toStartOf="@id/Spinner_from"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/Spinner_from" />-->
 
     <Button
         android:id="@+id/btn_converter"
@@ -108,16 +130,17 @@
 
     <TextView
         android:id="@+id/text_result"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:minWidth="100dp"
         android:padding="10dp"
         android:text="Resultado"
         android:textColor="@color/black"
 
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@id/Spinner_to"
-        app:layout_constraintTop_toBottomOf="@id/Spinner_to" />
+        app:layout_constraintStart_toStartOf="@id/input_form_layout"
+        app:layout_constraintTop_toBottomOf="@id/input_form_layout"
+        app:layout_constraintEnd_toEndOf="@id/input_form_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
